@@ -12,4 +12,14 @@
     <name>cc-aveast-tool</name>
     <description>cc-aveast-tool</description>
 
+    <dependencies>
+
+        <!-- 一方库 -->
+        <dependency>
+            <groupId>cc.aveast</groupId>
+            <artifactId>cc-aveast-common</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>
