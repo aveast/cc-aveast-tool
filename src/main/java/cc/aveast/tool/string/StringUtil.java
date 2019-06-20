@@ -71,4 +71,82 @@ public class StringUtil {
             return false;
         }
     }
+
+    /**
+     * 将hex字符串转换成byte数组
+     * @param hexString hex字符串
+     * @return
+     */
+    public static byte[] hex2bytes(String hexString) {
+        // 转换成大写
+        hexString = hexString.toUpperCase();
+
+        // 计算字节数组的长度
+        char[] chars = hexString.toCharArray();
+        byte[] bytes = new byte[chars.length / 2];
+
+        // 数组索引
+        int index = 0;
+
+        for (int i = 0; i < chars.length; i += 2) {
+            byte newByte = 0x00;
+
+            // 高位
+            newByte |= char2byte(chars[i]);
+            newByte <<= 4;
+
+            // 低位
+            newByte |= char2byte(chars[i + 1]);
+
+            // 赋值
+            bytes[index] = newByte;
+
+            index++;
+        }
+        return bytes;
+    }
+
+    /**
+     * 将char转换成对应byte
+     * @param ch char
+     * @return byte
+     */
+    private static byte char2byte(char ch) {
+        switch (ch) {
+            case '0':
+                return 0x00;
+            case '1':
+                return 0x01;
+            case '2':
+                return 0x02;
+            case '3':
+                return 0x03;
+            case '4':
+                return 0x04;
+            case '5':
+                return 0x05;
+            case '6':
+                return 0x06;
+            case '7':
+                return 0x07;
+            case '8':
+                return 0x08;
+            case '9':
+                return 0x09;
+            case 'A':
+                return 0x0A;
+            case 'B':
+                return 0x0B;
+            case 'C':
+                return 0x0C;
+            case 'D':
+                return 0x0D;
+            case 'E':
+                return 0x0E;
+            case 'F':
+                return 0x0F;
+            default:
+                return 0x00;
+        }
+    }
 }
