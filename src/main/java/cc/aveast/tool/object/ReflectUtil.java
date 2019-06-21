@@ -1,5 +1,7 @@
 package cc.aveast.tool.object;
 
+import cc.aveast.common.ErrorCode;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -312,6 +314,57 @@ public class ReflectUtil {
         } finally {
             field.setAccessible(false);
         }
+    }
+
+
+    /**
+     * 对基本类成员变量进行赋值
+     *
+     * @param fieldType 成员变量类型
+     * @param curField  成员变量
+     * @param field     字段值
+     * @param curObject 当前类
+     * @return ErrorCode.PARAM_TYPE_ERROR 类型不支持
+     */
+    public static int setPrimitiveValue(Class fieldType, Field curField, byte[] field, Object curObject) {
+        String type = fieldType.toString();
+
+        try {
+            if (type.equals("long")) {
+                curField.set(curObject, Long.parseLong(new String(field)));
+            } else if (type.equals("int")) {
+                curField.set(curObject, Integer.parseInt(new String(field)));
+            } else if (type.equals("double")) {
+                curField.set(curObject, Double.parseDouble(new String(field)));
+            } else if (type.equals("float")) {
+                curField.set(curObject, Float.parseFloat(new String(field)));
+            } else if (type.equals("boolean")) {
+                curField.set(curObject, Boolean.parseBoolean(new String(field)));
+            } else {
+                curField.set(curObject, new String(field));
+            }
+        } catch (IllegalAccessException e) {
+            return ErrorCode.PARAM_TYPE_ERROR.getCode();
+        }
+
+        return 0;
+    }
+
+    /**
+     * 对String类型变量进行赋值
+     * @param curField  成员变量
+     * @param field     待赋值
+     * @param curObject 当前对象
+     * @return ErrorCode.PARAM_TYPE_ERROR 类型不支持
+     */
+    public static int setStringValue(Field curField, byte[] field, Object curObject) {
+        try {
+            curField.set(curObject, new String(field).trim());
+        } catch (IllegalAccessException e) {
+            return ErrorCode.PARAM_TYPE_ERROR.getCode();
+        }
+
+        return 0;
     }
 
 }

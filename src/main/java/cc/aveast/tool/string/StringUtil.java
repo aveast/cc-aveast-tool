@@ -149,4 +149,34 @@ public class StringUtil {
                 return 0x00;
         }
     }
+
+    /**
+     * 将字符串转换成hex字符串
+     * @param str 待转换字符串
+     * @return hex字符串
+     */
+    public static String string2hex(String str) {
+        return bytes2hex(str.getBytes());
+    }
+
+    /**
+     * 将byte数组转换成hex字符串
+     * @param bytes byte数组
+     * @return hex字符串
+     */
+    public static String bytes2hex( byte[] bytes ) {
+        String result = "";
+        String b = "";
+        if (null == bytes) {
+            return null;
+        }
+        for (int i = 0; i < bytes.length; i++) {
+            b = Integer.toHexString(bytes[i] & 0xFF);
+            if (b.length() == 1) {
+                b = "0" + b;
+            }
+            result += b;
+        }
+        return result.toUpperCase();
+    }
 }
